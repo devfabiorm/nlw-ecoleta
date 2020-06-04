@@ -1,5 +1,8 @@
 import express from 'express';
 
+import PointsController from './controllers/PointsController';
+import ItemsController from './controllers/ItemsController';
+
 //Rota: Endereço completo da requisição
 //Recurso: Qual entidade estamos acessando no sistema
 
@@ -10,35 +13,17 @@ import express from 'express';
 
 const routes = express.Router();
 
-routes.get('/', (request, response) => {
-    return response.json({ message: 'Hello World'});
-});
+const pointsController = new PointsController();
+const itemsController = new ItemsController();
+
+//Padrões de nomes para métodos/funções: index => lista, show => exibit um registro, create => cadastrar, update => atualizar, delete => excluir
+routes.get('/items', itemsController.index);
+
+routes.post('/points', pointsController.create);
+
+routes.get('/points', pointsController.index);
+
+routes.get('/points/:id', pointsController.show);
+
 
 export default routes;
-
-// //Query Params: Paramêtros que vem na própria rota, geralmente opcionais, usados para filtrps, paginação, etc.
-// routes.get('/users', (request, response) => {
-//     const search = String(request.query.search);
-
-//    const filteredUsers = search ? users.filter(user => user.includes(search)) : users;
-
-//     return response.json(filteredUsers);
-// });
-
-// //Request Param: Parâmetrod que vem na própria rota uqe identificam um recurso
-// routes.get('/users/:id', (request, response) => {
-//     const id = Number(request.params.id);
-
-//     const user = users[id];
-
-//     response.json(user);
-// });
-
-// //Request Body: Parâmetros para criação/atualização de informações
-// routes.post('/users', (request, response) => {
-//     const data = request.body;
-
-//     console.log(data);
-
-//     return response.json(data);
-// });
