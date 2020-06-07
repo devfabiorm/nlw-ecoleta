@@ -1,4 +1,6 @@
 import express from 'express';
+import multer from 'multer';
+import multerConfig from './config/multer';
 
 import PointsController from './controllers/PointsController';
 import ItemsController from './controllers/ItemsController';
@@ -12,6 +14,7 @@ import ItemsController from './controllers/ItemsController';
 //DELETE: Remover uma informação do backend
 
 const routes = express.Router();
+const upload = multer(multerConfig);
 
 const pointsController = new PointsController();
 const itemsController = new ItemsController();
@@ -19,7 +22,7 @@ const itemsController = new ItemsController();
 //Padrões de nomes para métodos/funções: index => lista, show => exibit um registro, create => cadastrar, update => atualizar, delete => excluir
 routes.get('/items', itemsController.index);
 
-routes.post('/points', pointsController.create);
+routes.post('/points', upload.single('image'), pointsController.create);
 
 routes.get('/points', pointsController.index);
 
